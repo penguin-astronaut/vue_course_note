@@ -1,9 +1,9 @@
 <template>
   <div class="notes-list">
-    <div class="note-item" v-for="(note, index) in items" :key="index">
+    <div class="note-item" v-for="(note, index) in notes" :key="index">
         <div class="note-header">
           <p>{{ note.title }}</p>
-          <span style="cursor: pointer" @click="$emit('onRemove', index)">&#10006;</span>
+          <span style="cursor: pointer" @click="removeNote(index)">&#10006;</span>
         </div>
         <div v-if="note.tags?.length" class="note-footer">
           <TagsList :items="note.tags" isPreview/>
@@ -19,11 +19,18 @@ export default {
   components: {
     TagsList
   },
-  props: {
-    items: {
-      type: Array,
-      reqired: true
-    },
+  mounted() {
+    this.$store.dispatch('loadNotes')
+  },
+  computed: {
+    notes() {
+      return this.$store.getters.getNotes
+    }
+  },
+  methods: {
+    removeNote(index) {
+      this.$store.dispatch('removeNote', index)
+    }
   }
 }
 </script>

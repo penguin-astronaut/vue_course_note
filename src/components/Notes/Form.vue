@@ -1,16 +1,16 @@
 <template>
   <div class="note-form-wrapper">
    <form class="note-form" @submit.prevent="onSubmit">
-      <textarea 
-        type="text" 
-        v-model="value" 
-        placeholder="Type note" 
+      <textarea
+        type="text"
+        v-model="value"
+        placeholder="Type note"
         required />
       <TagsList :items="tags" :activeItems="activeTags" @onItemClick="handleTagClick"/>
       <button class="btn btnPrimary">Add Task</button>
     </form>
   </div>
- 
+
 </template>
 
 <script>
@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.$emit('onSubmit', {
+      this.$store.dispatch('addNote', {
         title: this.value,
         tags: Array.from(this.activeTags)
       })
